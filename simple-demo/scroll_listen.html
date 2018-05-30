@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="/vendor/bootstrap-3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/css/common.css">
+
+	<style>
+		.container {
+			width: 1200px!important;
+		}
+		.register-base {
+			height: 112px;
+			width: 100%;
+		}
+		.register-container {
+			width: 100%;
+			display: table;
+			background: rgba(0, 255, 0, 0.3);
+		}
+		.register-row {
+			display: table-row;
+		}
+		.register-cell {
+			height: 112px;
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+		.register-column {
+			/*float: left;*/
+			display: inline-block;
+			vertical-align: middle;
+			height: 53px;
+			line-height: 51px;
+			padding: 0;
+		}
+		.register-column + .register-column {
+			margin-left: 10px;
+		}
+		.register-column.register-item {
+			height: 51px;
+			line-height: 50px;
+			border: 1px solid #555;
+			overflow: hidden;
+			background: white;
+		}
+		.register-item input,
+		.register-item select {
+			line-height: initial;
+			-webkit-appearance: none;	/*去除input默认样式*/
+			border: none;
+			padding: 0 15px;
+			width: inherit;
+			outline: none;
+		}
+		.register-item-a {
+			width: 200px;
+		}
+		.register-item-b {
+			width: 320px;
+		}
+		.content-dummy {
+			height: 500px;
+			background: rgba(0, 0, 255, 0.3);
+		}
+		.content-dummy:nth-child(even) {
+			background: rgba(255, 255, 0, 0.3);
+		}
+		.register-fixed {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			transition: all 0.3s;
+		}
+		.register-left {
+			left: -100%;
+		}
+		.register-handler {
+			position: fixed;
+			bottom: 0;
+			left: -300px;
+			width: 150px;
+			height: 150px;
+			background: rgba(255, 0, 0, 0.3);
+			transition: all 0.3s;
+		}
+		.register-handler img {
+			width: 150px;
+			height: 150px;
+		}
+		.register-right {
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="menu"></div>
+
+	<div class="container">
+		<div class="row">
+			<div class="banner"></div>
+		</div>
+		<!-- 目标 -->
+		<div class="target" id="register"></div>
+		
+		<div class="content-dummy"></div>
+		<div class="content-dummy"></div>
+		<div class="content-dummy"></div>
+	</div>
+
+	<script src="/vendor/jquery-1.12.4/jquery.min.js"></script>
+	<script src="/vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="/assets/js/common.js"></script>
+
+	<script type="text/javascript">
+		;(function (factory) {
+			'use strict';
+			if (typeof define === 'function' && define.amd) {
+				// AMD模式
+				define(['jquery'], factory);
+			} else {
+				// 全局模式
+				factory(jQuery);
+			}
+		}(function ($, undefined) {
+			function initForm($this) {
+				var formTemp =
+					'<div class="register-container">' +
+						'<div class="register-row">' +
+							'<div class="register-cell">' +
+								'<div class="register-column" style="font-size: 24px; font-weight: 900;">' +
+									'<label style="line-height: 32px; margin-top: -7px;">立即预约<br>抢占先机</label>' +
+								'</div>' +
+								'<div class="register-column register-item register-item-a">' +
+									'<input type="text" name="name" placeholder="孩子姓名:" autocomplete="off">' +
+								'</div>' +
+								'<div class="register-column register-item register-item-a">' +
+									'<input type="text" name="tel" placeholder="家长电话:" autocomplete="off">' +
+								'</div>' +
+								'<div class="register-column register-item register-item-b">' +
+									'<select name="school" autocomplete="off">' +
+										'<option value="">请选择离您最近的校区</option>' +
+										'<option value="1">校区1</option>' +
+										'<option value="2">校区2</option>' +
+										'<option value="3">校区3</option>' +
+									'</select>' +
+								'</div>' +
+								'<div class="register-column">' +
+									'<button class="btn btn-warning btn-block register-column" style="width: 150px; font-size: 22px; font-weight: 900;">立即预约</button>' +
+								'</div>' +
+							'</div>' +
+							'<button class="btn btn-danger close-btn" style="width: 51px; height: 51px; font-size: 36px; position: relative; right: 15px; top: 31px; line-height: 51px; padding-top: 0;">&times;</button>' +
+						'</div>' +
+					'</div>';
+				var $fm = $(formTemp);
+				$this.append($fm);
+				$this.addClass('register-base');
+				$this.data('$fm', $fm);
+			}
+
+			function getScrollTop() {
+				var scrollTop = 0;
+				if (document.documentElement && document.documentElement.scrollTop) {
+					scrollTop = document.documentElement.scrollTop;
+				} else if (document.body) {
+					scrollTop = document.body.scrollTop;
+				}
+				return scrollTop;
+			}
+
+			// 开始计时
+			function startFixedHide() {
+
+			}
+
+			$.fn.register = function() {
+				var that = this;
+				$(that).each(function() {
+					var $this = $(this);
+					initForm($this);
+
+					// 注册表单层
+					var $regCtn = $this.find('.register-container');
+					// 把手对象
+					var $handler = undefined;
+					// 是否弹出框(false: 状态1, true: 状态2)
+					var isActived = false;
+					// 计时任务
+					var ttask = undefined;
+
+					// 弹出层重置方法，归位，隐藏重置按钮，状态0
+					function reset() {
+						isActived = false;
+						$regCtn.removeClass('register-fixed register-left');
+						$regCtn.next().remove();
+						$handler = undefined;
+						if (ttask) {
+							clearTimeout(ttask);
+							ttask = undefined;
+						}
+					}
+
+					// 弹出把手，状态1
+					function popHandler() {
+						$regCtn.addClass('register-fixed').addClass('register-left');
+
+						// 没有把手，加“把手”
+						if (!$regCtn.next().is('.register-handler')) {
+							$handler = $(
+								'<div class="register-handler">' +
+									'<img src="CHANGE_ME" alt="点我" />' +
+								'</div>'
+							);
+							$regCtn.after($handler);
+							
+							// 点击弹出注册表单层
+							$handler.on('click', popRegister);
+						}
+
+						// 弹出把手层
+						setTimeout(function() {
+							$handler.addClass('register-right');
+						}, 16);
+					}
+
+					// 弹出注册表单，状态2
+					function popRegister() {
+						isActived = true;
+						$handler.removeClass('register-right');
+						setTimeout(function() {
+							$regCtn.removeClass('register-left');
+
+							// 加鼠标进入，清除ttask的监听
+							$regCtn.on('mouseover', function() {
+								if (ttask) {
+									clearTimeout(ttask);
+									ttask = undefined;
+								}
+								console.log('clear');
+							});
+							// 加鼠标退出，重新建立5s的ttask任务的监听
+							$regCtn.on('mouseout', function() {
+								// 启动计时，到时返回状态1
+								ttask = setTimeout(function() {
+									popHandler();
+								}, 5000);
+								console.log('re-run task');
+							});
+
+							// 初始化启动ttask
+							ttask = setTimeout(function() {
+								popHandler();
+							}, 5000);
+							console.log('run task');
+						}, 300);
+					}
+
+					// 绑定滚动事件
+					$(window).scroll(function(evt) {
+						var scrollTop = getScrollTop();			// 滚动条位置
+						var windowHeight = $(window).height();	// 显示区域高度
+
+						console.log(scrollTop, '>', windowHeight, '=?=>', (scrollTop > windowHeight));
+
+						// 如果小于1屏，一切还原
+						if (scrollTop <= windowHeight) {
+							reset();
+						}
+						// 如果大于1屏
+						else {
+							// 如果不是激活状态，弹出门把手
+							if (!isActived) {
+								popHandler();
+							}
+
+							// 如果是激活状态，不做任何事儿
+							else {
+								console.log('isActived');
+							}
+						}
+					});
+				});
+			};
+		}));
+	</script>
+	<script>
+		$('#register').register();
+	</script>
+</body>
+</html>
