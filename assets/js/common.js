@@ -9,7 +9,7 @@ function init_menu() {
 		'<div>' +
 			'<ul class="nav navbar-nav">' +
 				'<li><a href="plugins.html">插件</a></li>' +
-				// '<li><a href="standard-and-rules.html"></a></li>' +
+				'<li><a href="fix-ie8.html">兼容ie8</a></li>' +
 				'<li class="dropdown">' +
 					'<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">' +
 						'标准/规范' +

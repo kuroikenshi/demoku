@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>兼容ie8等 + 手机样式</title>
+
+	<!-- 兼容&移动端 放在最开始 __START__ -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<!-- 兼容&移动端 放在最开始 ___END___ -->
+
+	<link rel="stylesheet" href="vendor/bootstrap-3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/common.css">
+
+	<!-- 兼容&移动端 放在最后 __START__ -->
+	<!-- 必须先引用bs.css，然后再引用respond.js -->
+	<!--[if lt IE 9]>
+		<script src="assets/plugins/ie-fix/respond.min.js"></script>
+		<script src="assets/plugins/ie-fix/html5shiv.min.js"></script>
+	<![endif]-->
+	<!-- 兼容&移动端 放在最后 ___END___ -->
+</head>
+<body>
+	<!-- 菜单占位 -->
+	<div id="menu"></div>
+
+	<div class="container">
+		<h2>浏览器兼容性的一些问题 <small>(主要是ie8、手机端之类的)</small></h2>
+
+		<hr>
+		
+		<div class="container-fluid container-fullw">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						基本引用
+					</h4>
+				</div>
+				<div class="panel-body">
+					手机页面的宽度1:1调整，禁用用户缩放
+					<pre>
+&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;</pre>
+					手机页面的宽度1:1调整，禁用用户缩放
+					<pre>
+&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;</pre>
+				</div>
+				<div class="panel-footer">兼容性：</div>
+				<div class="panel-footer"></div>
+			</div>
+		</div>
+
+		<div class="container-fluid container-fullw">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						示例标题
+					</h4>
+				</div>
+				<div class="panel-body">
+					示例内容
+					<pre>console.log('示例代码');</pre>
+				</div>
+			</div>
+		</div>
+
+		<!-- <div class="container-fluid container-fullw">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						示例标题
+					</h4>
+				</div>
+				<div class="panel-body">
+					示例内容
+					<pre>console.log('示例代码');</pre>
+				</div>
+			</div>
+		</div> -->
+
+	</div>
+
+	<script src="vendor/jquery-1.12.4/jquery.min.js"></script>
+	<script src="vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="assets/js/common.js"></script>
+
+	<script>
+		// 初始化
+		function init() {
+
+		}
+	</script>
+</body>
+</html>
