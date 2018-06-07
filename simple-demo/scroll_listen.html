@@ -180,6 +180,12 @@
 
 			$.fn.register = function() {
 				var that = this;
+
+				var animeOpt = {
+					speed: 1000,
+					queue: true
+				};
+
 				$(that).each(function() {
 					var $this = $(this);
 					initForm($this);
@@ -190,6 +196,8 @@
 					var $handler = undefined;
 					// 是否弹出框(false: 状态1, true: 状态2)
 					var isActived = false;
+
+					var isRunning = false;
 					// 计时任务
 					var ttask = undefined;
 
@@ -205,15 +213,31 @@
 						}
 					}
 
-					// 弹出把手，状态1
+					// 弹出把手，收回表单，状态1
 					function popHandler() {
-						$regCtn.addClass('register-fixed').addClass('register-left');
+						console.log('弹出把手');
+
+						isRunning = true;
+						setTimeout(function() {
+							isRunning = false;
+						}, 1000);
+
+
+						// 浮动模式
+						$regCtn.addClass('register-fixed');
+						// 还原到一开始的状态
+						$regCtn.attr('style', '');
+
+						// 弹出把手层
+						$regCtn.animate({
+							left: "-100%"
+						}, animeOpt);
 
 						// 没有把手，加“把手”
 						if (!$regCtn.next().is('.register-handler')) {
 							$handler = $(
 								'<div class="register-handler">' +
-									'<img src="CHANGE_ME" alt="点我" />' +
+									'<img src="/assets/img/icon.png" alt="点我" />' +
 								'</div>'
 							);
 							$regCtn.after($handler);
@@ -223,41 +247,66 @@
 						}
 
 						// 弹出把手层
-						setTimeout(function() {
-							$handler.addClass('register-right');
-						}, 16);
+						$handler.animate({
+							left: "0px"
+						}, animeOpt);
 					}
 
-					// 弹出注册表单，状态2
-					function popRegister() {
-						isActived = true;
-						$handler.removeClass('register-right');
-						setTimeout(function() {
-							$regCtn.removeClass('register-left');
+					// 启动倒计时
+					function startCountDown() {
+						if (!ttask) {
+							// 倒计时自动触发事件
+							ttask = setTimeout(function() {
+								popHandler();
+							}, 5000);	
+						} else {
+							console.error('ERR: 已存在倒计时任务，无法启动');
+						}
+					}
 
-							// 加鼠标进入，清除ttask的监听
-							$regCtn.on('mouseover', function() {
-								if (ttask) {
-									clearTimeout(ttask);
-									ttask = undefined;
-								}
-								console.log('clear');
-							});
+					// 结束倒计时
+					function terminateCountDown() {
+						if (ttask) {
+							clearTimeout(ttask);
+							ttask = undefined;
+						} else {
+							console.error('ERR: 未发现倒计时任务，无法终止');
+						}
+					}
+
+					// 弹出注册表单，收回把手，状态2
+					function popRegister() {
+						console.log('弹出注册表单');
+
+						isRunning = true;
+						setTimeout(function() {
+							isRunning = false;
+						}, 1000);
+
+
+						// 收回把手层
+						$handler.animate({
+							left: "-200px"
+						}, animeOpt);
+
+						// 弹出form层
+						$regCtn.animate({
+							left: "0px"
+						}, animeOpt);
+
+						startCountDown();
+
+						// 加鼠标进入，清除ttask的监听
+						$regCtn.on('mouseover', function() {
+							terminateCountDown();
+
 							// 加鼠标退出，重新建立5s的ttask任务的监听
 							$regCtn.on('mouseout', function() {
 								// 启动计时，到时返回状态1
-								ttask = setTimeout(function() {
-									popHandler();
-								}, 5000);
+								startCountDown();
 								console.log('re-run task');
 							});
-
-							// 初始化启动ttask
-							ttask = setTimeout(function() {
-								popHandler();
-							}, 5000);
-							console.log('run task');
-						}, 300);
+						});
 					}
 
 					// 绑定滚动事件
@@ -265,7 +314,7 @@
 						var scrollTop = getScrollTop();			// 滚动条位置
 						var windowHeight = $(window).height();	// 显示区域高度
 
-						console.log(scrollTop, '>', windowHeight, '=?=>', (scrollTop > windowHeight));
+						// console.log(scrollTop, '>', windowHeight, '=?=>', (scrollTop > windowHeight));
 
 						// 如果小于1屏，一切还原
 						if (scrollTop <= windowHeight) {
@@ -273,14 +322,22 @@
 						}
 						// 如果大于1屏
 						else {
-							// 如果不是激活状态，弹出门把手
-							if (!isActived) {
-								popHandler();
+							// 避免多次触发
+							if (!isRunning) {
+								// 如果不是激活状态，弹出门把手
+								if (!isActived) {
+									popHandler();
+								}
+
+								// 如果是激活状态，不做任何事儿
+								else {
+									console.log('isActived');
+								}
 							}
 
 							// 如果是激活状态，不做任何事儿
 							else {
-								console.log('isActived');
+								console.log('isRunning');
 							}
 						}
 					});
