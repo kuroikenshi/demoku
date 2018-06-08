@@ -72,12 +72,9 @@
 		.register-fixed {
 			position: fixed;
 			bottom: 0;
-			left: 0;
+			left: -100%;
 			width: 100%;
 			transition: all 0.3s;
-		}
-		.register-left {
-			left: -100%;
 		}
 		.register-handler {
 			position: fixed;
@@ -91,9 +88,6 @@
 		.register-handler img {
 			width: 150px;
 			height: 150px;
-		}
-		.register-right {
-			left: 0;
 		}
 	</style>
 </head>
@@ -173,18 +167,8 @@
 				return scrollTop;
 			}
 
-			// 开始计时
-			function startFixedHide() {
-
-			}
-
 			$.fn.register = function() {
 				var that = this;
-
-				var animeOpt = {
-					speed: 1000,
-					queue: true
-				};
 
 				$(that).each(function() {
 					var $this = $(this);
@@ -192,46 +176,57 @@
 
 					// 注册表单层
 					var $regCtn = $this.find('.register-container');
+					console.log('$regCtn.length>>>', $regCtn.length);
 					// 把手对象
 					var $handler = undefined;
 					// 是否弹出框(false: 状态1, true: 状态2)
 					var isActived = false;
-
+					// 是否正在弹出
 					var isRunning = false;
+					// 是否正在倒计时
+					var isCD = false;
 					// 计时任务
 					var ttask = undefined;
 
 					// 弹出层重置方法，归位，隐藏重置按钮，状态0
 					function reset() {
+						// 状态还原
 						isActived = false;
-						$regCtn.removeClass('register-fixed register-left');
+						isRunning = false;
+						isCD = false;
+						if (ttask !== undefined) {
+							clearTimeout(ttask);
+						}
+						
+						// 注册框位置还原
+						$regCtn.removeClass('register-fixed');
+						$regCtn.attr('style', '');
+
+						// 清除掉多余的事件监听
+						$regCtn.off('mouseover').off('mouseout');
+
+						// 把手层清除
 						$regCtn.next().remove();
 						$handler = undefined;
-						if (ttask) {
-							clearTimeout(ttask);
-							ttask = undefined;
-						}
 					}
 
 					// 弹出把手，收回表单，状态1
 					function popHandler() {
-						console.log('弹出把手');
-
-						isRunning = true;
-						setTimeout(function() {
-							isRunning = false;
-						}, 1000);
-
-
 						// 浮动模式
 						$regCtn.addClass('register-fixed');
 						// 还原到一开始的状态
 						$regCtn.attr('style', '');
 
-						// 弹出把手层
-						$regCtn.animate({
-							left: "-100%"
-						}, animeOpt);
+						// 收回注册表单
+						if (!isRunning) {
+							isRunning = true;
+							$regCtn.animate({left: "-100%"}, "slow", "swing", function() {
+								// 弹出把手层
+								$handler.animate({left: "0px"}, "slow", "swing", function() {
+									isRunning = false;
+								});
+							});
+						}
 
 						// 没有把手，加“把手”
 						if (!$regCtn.next().is('.register-handler')) {
@@ -245,66 +240,54 @@
 							// 点击弹出注册表单层
 							$handler.on('click', popRegister);
 						}
-
-						// 弹出把手层
-						$handler.animate({
-							left: "0px"
-						}, animeOpt);
 					}
 
 					// 启动倒计时
 					function startCountDown() {
-						if (!ttask) {
+						if (!isCD) {
 							// 倒计时自动触发事件
 							ttask = setTimeout(function() {
 								popHandler();
-							}, 5000);	
-						} else {
-							console.error('ERR: 已存在倒计时任务，无法启动');
+								isCD = false;
+							}, 5000);
+							isCD = true;
 						}
 					}
 
 					// 结束倒计时
 					function terminateCountDown() {
-						if (ttask) {
+						if (ttask !== undefined) {
 							clearTimeout(ttask);
-							ttask = undefined;
-						} else {
-							console.error('ERR: 未发现倒计时任务，无法终止');
+							isCD = false;
 						}
 					}
 
 					// 弹出注册表单，收回把手，状态2
 					function popRegister() {
-						console.log('弹出注册表单');
-
-						isRunning = true;
-						setTimeout(function() {
-							isRunning = false;
-						}, 1000);
-
-
 						// 收回把手层
-						$handler.animate({
-							left: "-200px"
-						}, animeOpt);
-
-						// 弹出form层
-						$regCtn.animate({
-							left: "0px"
-						}, animeOpt);
+						if (!isRunning) {
+							console.log('收回把手');
+							isRunning = true;
+							$handler.animate({left: "-150px"}, "slow", "swing", function() {
+								// 弹出form层
+								$regCtn.animate({left: "0px"}, "slow", "swing", function() {
+									isRunning = false;
+								});
+							});	
+						}
 
 						startCountDown();
 
 						// 加鼠标进入，清除ttask的监听
+						$regCtn.off('mouseover').off('mouseout');
 						$regCtn.on('mouseover', function() {
 							terminateCountDown();
 
 							// 加鼠标退出，重新建立5s的ttask任务的监听
+							$regCtn.off('mouseout');
 							$regCtn.on('mouseout', function() {
 								// 启动计时，到时返回状态1
 								startCountDown();
-								console.log('re-run task');
 							});
 						});
 					}
@@ -327,6 +310,7 @@
 								// 如果不是激活状态，弹出门把手
 								if (!isActived) {
 									popHandler();
+									isActived = true;
 								}
 
 								// 如果是激活状态，不做任何事儿
@@ -335,7 +319,7 @@
 								}
 							}
 
-							// 如果是激活状态，不做任何事儿
+							// 如果是正在弹出状态，不做任何事儿
 							else {
 								console.log('isRunning');
 							}
