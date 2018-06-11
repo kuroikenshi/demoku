@@ -1,0 +1,20 @@
+.register-fixed {
+	position: fixed;
+	bottom: 0;
+	left: -100%;
+	width: 100%;
+	transition: all 0.3s;
+}
+.register-handler {
+	position: fixed;
+	bottom: 0;
+	left: -300px;
+	width: 150px;
+	height: 150px;
+	background: rgba(255, 0, 0, 0.3);
+	transition: all 0.3s;
+}
+.register-handler img {
+	width: 150px;
+	height: 150px;
+}

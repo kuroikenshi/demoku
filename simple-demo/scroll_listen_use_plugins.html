@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="/vendor/bootstrap-3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/css/common.css">
+
+	<style>
+		.container {
+			width: 1200px!important;
+		}
+		.register-base {
+			height: 112px;
+			width: 100%;
+		}
+		.register-container {
+			width: 100%;
+			display: table;
+			background: rgba(0, 255, 0, 0.3);
+		}
+		.register-row {
+			display: table-row;
+		}
+		.register-cell {
+			height: 112px;
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+		.register-column {
+			/*float: left;*/
+			display: inline-block;
+			vertical-align: middle;
+			height: 53px;
+			line-height: 51px;
+			padding: 0;
+		}
+		.register-column + .register-column {
+			margin-left: 10px;
+		}
+		.register-column.register-item {
+			height: 51px;
+			line-height: 50px;
+			border: 1px solid #555;
+			overflow: hidden;
+			background: white;
+		}
+		.register-item input,
+		.register-item select {
+			line-height: initial;
+			-webkit-appearance: none;	/*去除input默认样式*/
+			border: none;
+			padding: 0 15px;
+			width: inherit;
+			outline: none;
+		}
+		.register-item-a {
+			width: 200px;
+		}
+		.register-item-b {
+			width: 320px;
+		}
+		.content-dummy {
+			height: 500px;
+			background: rgba(0, 0, 255, 0.3);
+		}
+		.content-dummy:nth-child(even) {
+			background: rgba(255, 255, 0, 0.3);
+		}
+	</style>
+</head>
+<body>
+	<div id="menu"></div>
+
+	<div class="container">
+		<div class="row">
+			<div class="banner"></div>
+		</div>
+		<!-- 目标 -->
+		<div id="register">
+			<div class="register-container">
+				<div class="register-row">
+					<div class="register-cell">
+						<div class="register-column" style="font-size: 24px; font-weight: 900;">
+							<label style="line-height: 32px; margin-top: -7px;">立即预约<br>抢占先机</label>
+						</div>
+						<div class="register-column register-item register-item-a">
+							<input type="text" name="name" placeholder="孩子姓名:" autocomplete="off"></div><div class="register-column register-item register-item-a"><input type="text" name="tel" placeholder="家长电话:" autocomplete="off">
+						</div>
+						<div class="register-column register-item register-item-b">
+							<select name="school" autocomplete="off">
+								<option value="">请选择离您最近的校区</option>
+								<option value="1">校区1</option>
+								<option value="2">校区2</option>
+								<option value="3">校区3</option>
+							</select>
+						</div>
+						<div class="register-column">
+							<button class="btn btn-warning btn-block register-column" style="width: 150px; font-size: 22px; font-weight: 900;">立即预约</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="register-handler">
+				<img src="/assets/img/icon.png" alt="点我" />
+			</div>
+		</div>
+		
+		<div class="content-dummy"></div>
+		<div class="content-dummy"></div>
+		<div class="content-dummy"></div>
+	</div>
+
+	<script src="/vendor/jquery-1.12.4/jquery.min.js"></script>
+	<script src="/vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="/assets/js/common.js"></script>
+
+	<!-- 滚动注册框插件 START -->
+	<link rel="stylesheet" href="/assets/plugins/scroll-listen-bar/scroll-listen-bar.css">
+	<script src="/assets/plugins/scroll-listen-bar/scroll-listen-bar.js"></script>
+	<script>
+		$('#register').register();
+	</script>
+	<!-- 滚动注册框插件 END -->
+</body>
+</html>
