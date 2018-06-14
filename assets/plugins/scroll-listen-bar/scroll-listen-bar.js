@@ -61,6 +61,23 @@
 				$handler.attr('style', '');
 			}
 
+			function popHandler_init() {
+				// 浮动模式
+				$regCtn.addClass('register-fixed');
+				// 还原到一开始的状态
+				$regCtn.attr('style', '');
+
+				// 收回注册表单
+				if (!isRunning) {
+					isRunning = true;
+					$regCtn.css('left', '-100%');
+					// 弹出把手层
+					$handler.animate({left: "0px"}, 100, function() {
+						isRunning = false;
+					});
+				}
+			}
+
 			// 弹出把手，收回表单，状态1
 			function popHandler() {
 				// 浮动模式
@@ -71,9 +88,9 @@
 				// 收回注册表单
 				if (!isRunning) {
 					isRunning = true;
-					$regCtn.animate({left: "-100%"}, "slow", "swing", function() {
+					$regCtn.animate({left: "-100%"}, 100, function() {
 						// 弹出把手层
-						$handler.animate({left: "0px"}, "slow", "swing", function() {
+						$handler.animate({left: "0px"}, 100, function() {
 							isRunning = false;
 						});
 					});
@@ -106,9 +123,9 @@
 				if (!isRunning) {
 					// console.log('收回把手');
 					isRunning = true;
-					$handler.animate({left: "-150px"}, "slow", "swing", function() {
+					$handler.animate({left: "-150px"}, 100, function() {
 						// 弹出form层
-						$regCtn.animate({left: "0px"}, "slow", "swing", function() {
+						$regCtn.animate({left: "0px"}, 100, function() {
 							isRunning = false;
 						});
 					});	
@@ -147,7 +164,7 @@
 					if (!isRunning) {
 						// 如果不是激活状态，弹出门把手
 						if (!isActived) {
-							popHandler();
+							popHandler_init();
 							isActived = true;
 						}
 
