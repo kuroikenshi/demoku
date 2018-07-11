@@ -1,8 +1,14 @@
+* {
+	font-family: 'Microsoft YaHei';
+}
 html, body {
 	background-color: #eee;
 }
+h5 {
+	font-weight: 700;
+}
 .no-margin-bottom {
-	margin-bottom: 0;
+	/*margin-bottom: 0;*/
 }
 
 .navbar-default {

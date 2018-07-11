@@ -3,22 +3,51 @@
 <head>
 	<meta charset="UTF-8">
 	<title>兼容ie8等 + 手机样式</title>
-
-	<!-- 兼容&移动端 放在最开始 __START__ -->
+	 <!-- 作者 -->
+    <meta name="author" content="author">
+    <!-- 网页描述 -->
+    <meta name="description" content="hello">
+    <!-- 关键字使用","分隔 -->
+    <meta name="keywords" content="a,b,c">
+    <!-- 禁止浏览器从本地机的缓存中调阅页面内容 -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <!-- 用来防止别人在框架里调用你的页面 -->
+    <meta http-equiv="Window-target" content="_top">
+    <!-- content的参数有all，none，index，noindex，follow，nofollow，默认是all -->
+    <meta name="robots" content="none">
+    <!-- 收藏图标 -->
+    <link rel="Shortcut Icon" href="favicon.ico">
+    <!-- 网页不会被缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <!-- 解决部分兼容性问题，如果安装了GCF，则使用GCF来渲染页面，如果未安装GCF，则使用最高版本的IE内核进行渲染。 -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <!-- 页面按原比例显示，禁用缩放 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<!-- 兼容&移动端 放在最开始 ___END___ -->
 
 	<link rel="stylesheet" href="vendor/bootstrap-3.3.7/css/bootstrap.min.css">
+
+	<!-- 必须先引用bs.css，然后再引用respond.js，必须有服务器环境 -->
+	<!--[if lt IE 9]>
+		<script src="vendor/ie-fix/html5shiv.min.js"></script>
+		<script src="vendor/ie-fix/respond.min.js"></script>
+	<![endif]-->
+
 	<link rel="stylesheet" href="assets/css/common.css">
 
-	<!-- 兼容&移动端 放在最后 __START__ -->
-	<!-- 必须先引用bs.css，然后再引用respond.js -->
-	<!--[if lt IE 9]>
-		<script src="assets/plugins/ie-fix/respond.min.js"></script>
-		<script src="assets/plugins/ie-fix/html5shiv.min.js"></script>
-	<![endif]-->
-	<!-- 兼容&移动端 放在最后 ___END___ -->
+	<style>
+		.ie8-round {
+			border: solid 1px red;
+			border-radius: 20px;
+			position: relative;
+			behavior: url(/vendor/ie-fix/pie.htc);
+		}
+		.ie8-part-round {
+			border: solid 1px red;
+			border-radius: 20px 0 20px 0;
+			position: relative;
+			behavior: url(/vendor/ie-fix/pie.htc);
+		}
+	</style>
 </head>
 <body>
 	<!-- 菜单占位 -->
@@ -27,30 +56,108 @@
 	<div class="container">
 		<h2>浏览器兼容性的一些问题 <small>(主要是ie8、手机端之类的)</small></h2>
 
-		<hr>
+		<br>
 		
 		<div class="container-fluid container-fullw">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						基本引用
+						解决兼容性问题的meta标签
 					</h4>
 				</div>
 				<div class="panel-body">
-					手机页面的宽度1:1调整，禁用用户缩放
-					<pre>
-&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;</pre>
-					手机页面的宽度1:1调整，禁用用户缩放
-					<pre>
-&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;</pre>
+					<h5>手机页面的宽度1:1调整，禁用用户缩放</h5>
+					<pre>&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;</pre>
+					<br>
+					<h5>解决部分兼容性问题，如果安装了GCF，则使用GCF来渲染页面，如果未安装GCF，则使用最高版本的IE内核进行渲染。</h5>
+					<pre>&lt;meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /&gt;</pre>
 				</div>
-				<div class="panel-footer">兼容性：</div>
-				<div class="panel-footer"></div>
+				<div class="panel-footer">兼容性：<strong>ALL</strong></div>
 			</div>
-		</div>
 
-		<div class="container-fluid container-fullw">
 			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						使IE8支持媒体查询、识别html5的标签
+					</h4>
+				</div>
+				<div class="panel-body">
+					<h5>respond.js</h5>
+					<p>为了使IE8支持媒体查询，以实现bootstrap的响应式布局，需要使用respond.js</p>
+					<p>使用respond.js的要点：</p>
+					<ul>
+						<li>查看页面时必须有服务器环境，比如nodeJS的http-server</li>
+						<li>先引用bootstrap的css文件，然后在浏览器小于ie9的情况下，引用respond.js</li>
+						<li>注意自定义样式，定义宽度的时候，在IE8优先使用不带媒体查询的，所以需要把自定义样式报在媒体查询中，否则会覆盖使媒体查询失效</li>
+					</ul>
+					<br>
+
+					<p>IE8不会识别html5的标签，比如<code>TODO>>>>>>>>完成这个部分以后，还缺一个placeholder的支持方法</code></p>
+					<br>
+					<code>TODO>>>>>>>>讲解&lt;!--[if lt IE 9]&gt;的作用</code>
+					<br>
+					<pre>&lt;!--[if lt IE 9]&gt;
+    &lt;script src="vendor/ie-fix/html5shiv.min.js"&gt;&lt;/script&gt;
+    &lt;script src="vendor/ie-fix/respond.min.js"&gt;&lt;/script&gt;
+&lt;![endif]--&gt;</pre>
+				</div>
+				<div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试) <code>TODO>>>>>>>>增加文件下载</code></div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						IE8圆角问题
+					</h4>
+				</div>
+				<div class="panel-body">
+					<p>使用pie.htc第一版，版本号可在htc文件中查看。使用要点：</p>
+					<ul>
+						<li>pie文件路径是相对于当前html页面的，而不是针对css的</li>
+						<li>position: relative是为了解决有背景颜色的时候，border圆角失效的bug</li>
+					</ul>
+					<br>
+					<h5>正常圆角</h5>
+					<div class="ie8-round" style="width: 100px; height: 100px; margin-bottom: 15px;"></div>
+					<pre>.ie8-round {
+    border: solid 1px red;
+    border-radius: 20px;
+    position: relative;
+    behavior: url(/vendor/ie-fix/pie.htc);
+}</pre>
+					<br>
+					<h5>单独设置圆角</h5>
+					<div class="ie8-part-round" style="width: 100px; height: 100px; margin-bottom: 15px;"></div>
+					<pre>.ie8-part-round {
+    border: solid 1px red;
+    border-radius: 20px 0 20px 0;
+    position: relative;
+    behavior: url(/vendor/ie-fix/pie.htc);
+}</pre>
+				</div>
+				<div class="panel-footer">
+					兼容性：<strong>IE8以上，不完美支持</strong>
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						示例标题
+					</h4>
+				</div>
+				<div class="panel-body">
+					<h5>示例标题</h5>
+					<p>示例内容示例内容示例内容示例内容</p>
+					<pre>console.log('示例代码');</pre>
+					<br>
+					<p>示例内容</p>
+					<pre>console.log('示例代码');</pre>
+				</div>
+				<div class="panel-footer">兼容性：<strong>ALL</strong></div>
+			</div>
+
+			<!-- <div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						示例标题
@@ -60,24 +167,11 @@
 					示例内容
 					<pre>console.log('示例代码');</pre>
 				</div>
-			</div>
-		</div>
+			</div> -->
 
-		<!-- <div class="container-fluid container-fullw">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						示例标题
-					</h4>
-				</div>
-				<div class="panel-body">
-					示例内容
-					<pre>console.log('示例代码');</pre>
-				</div>
-			</div>
-		</div> -->
+		</div><!-- END OF .container-fluid -->
 
-	</div>
+	</div><!-- END OF .container -->
 
 	<script src="vendor/jquery-1.12.4/jquery.min.js"></script>
 	<script src="vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
