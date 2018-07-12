@@ -26,28 +26,38 @@
 
 	<link rel="stylesheet" href="vendor/bootstrap-3.3.7/css/bootstrap.min.css">
 
+	<link rel="stylesheet" href="assets/css/common.css">
+
+	<style>
+		.ie8-fixed {
+			behavior: url(/vendor/ie-fix/pie.htc);
+		}
+		.block {
+			width: 100px;
+			height: 100px;
+			margin-bottom: 15px;
+		}
+		.round {
+			border: solid 1px red;
+			border-radius: 20px;
+			position: relative;
+		}
+		.part-round {
+			border: solid 1px red;
+			border-radius: 20px 0 20px 0;
+			position: relative;
+		}
+	</style>
+
 	<!-- 必须先引用bs.css，然后再引用respond.js，必须有服务器环境 -->
 	<!--[if lt IE 9]>
 		<script src="vendor/ie-fix/html5shiv.min.js"></script>
 		<script src="vendor/ie-fix/respond.min.js"></script>
 	<![endif]-->
 
-	<link rel="stylesheet" href="assets/css/common.css">
-
-	<style>
-		.ie8-round {
-			border: solid 1px red;
-			border-radius: 20px;
-			position: relative;
-			behavior: url(/vendor/ie-fix/pie.htc);
-		}
-		.ie8-part-round {
-			border: solid 1px red;
-			border-radius: 20px 0 20px 0;
-			position: relative;
-			behavior: url(/vendor/ie-fix/pie.htc);
-		}
-	</style>
+	<!--[if lt IE 10]>
+        <script type="text/javascript"src="vendor/ie-fix/placeholder.js" charset="utf-8"></script>
+    <![endif]-->
 </head>
 <body>
 	<!-- 菜单占位 -->
@@ -78,7 +88,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						使IE8支持媒体查询、识别html5的标签
+						支持媒体查询、识别html5的标签
 					</h4>
 				</div>
 				<div class="panel-body">
@@ -87,27 +97,32 @@
 					<p>使用respond.js的要点：</p>
 					<ul>
 						<li>查看页面时必须有服务器环境，比如nodeJS的http-server</li>
-						<li>先引用bootstrap的css文件，然后在浏览器小于ie9的情况下，引用respond.js</li>
+						<li>respond.js越早引入越好，但是要在css之后引入。（越早引入越好，在ie下面看到页面闪屏的概率就越低，因为最初css会先渲染出来，如果respond.js加载得很后面，这时重新根据media query解析出来的css会再改变一次页面的布局等，所以看起来有闪屏的现象）</li>
 						<li>注意自定义样式，定义宽度的时候，在IE8优先使用不带媒体查询的，所以需要把自定义样式报在媒体查询中，否则会覆盖使媒体查询失效</li>
 					</ul>
 					<br>
 
-					<p>IE8不会识别html5的标签，比如<code>TODO>>>>>>>>完成这个部分以后，还缺一个placeholder的支持方法</code></p>
+					<h5>html5shiv.js</h5>
+					<p>解决IE9以下浏览器不会识别html5的标签的问题</p>
 					<br>
-					<code>TODO>>>>>>>>讲解&lt;!--[if lt IE 9]&gt;的作用</code>
+
+					<h5>&lt;!--[if lt IE 9]&gt;...&lt;![endif]--&gt;的作用</h5>
+					<p>以上标签只有ie会识别，lt=less than=小于，所以if条件为：当浏览器小于ie9（不含）时。</p>
+					<p>可以使用此标签针对ie8做特殊优化和引用</p>
 					<br>
+
 					<pre>&lt;!--[if lt IE 9]&gt;
     &lt;script src="vendor/ie-fix/html5shiv.min.js"&gt;&lt;/script&gt;
     &lt;script src="vendor/ie-fix/respond.min.js"&gt;&lt;/script&gt;
 &lt;![endif]--&gt;</pre>
 				</div>
-				<div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试) <code>TODO>>>>>>>>增加文件下载</code></div>
+				<div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试)</div>
 			</div>
 
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						IE8圆角问题
+						圆角问题
 					</h4>
 				</div>
 				<div class="panel-body">
@@ -117,27 +132,87 @@
 						<li>position: relative是为了解决有背景颜色的时候，border圆角失效的bug</li>
 					</ul>
 					<br>
-					<h5>正常圆角</h5>
-					<div class="ie8-round" style="width: 100px; height: 100px; margin-bottom: 15px;"></div>
-					<pre>.ie8-round {
+					<h5>全部圆角</h5>
+					<div class="row">
+						<div class="col-sm-6 col-md-5 col-md-offset-1">
+							<div class="block round"></div>
+							<pre>.round {
+    border: solid 1px red;
+    border-radius: 20px;
+    position: relative;
+}</pre>
+						</div>
+						<div class="col-sm-6 col-md-5">
+							<div class="block round ie8-fixed"></div>
+							<pre>.round.ie8-fixed {
     border: solid 1px red;
     border-radius: 20px;
     position: relative;
     behavior: url(/vendor/ie-fix/pie.htc);
 }</pre>
+						</div>
+					</div>
 					<br>
-					<h5>单独设置圆角</h5>
-					<div class="ie8-part-round" style="width: 100px; height: 100px; margin-bottom: 15px;"></div>
-					<pre>.ie8-part-round {
+
+					<h5>局部圆角</h5>
+					<div class="row">
+						<div class="col-sm-6 col-md-5 col-md-offset-1">
+							<div class="block part-round"></div>
+							<pre>.part-round {
+    border: solid 1px red;
+    border-radius: 20px 0 20px 0;
+    position: relative;
+}</pre>
+						</div>
+						<div class="col-sm-6 col-md-5">
+							<div class="block part-round ie8-fixed"></div>
+							<pre>.part-round.ie8-fixed {
     border: solid 1px red;
     border-radius: 20px 0 20px 0;
     position: relative;
     behavior: url(/vendor/ie-fix/pie.htc);
 }</pre>
+						</div>
+					</div>
 				</div>
 				<div class="panel-footer">
 					兼容性：<strong>IE8以上，不完美支持</strong>
 				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						placeholder
+					</h4>
+				</div>
+				<div class="panel-body">
+					<p>以下是一种方法，在IE上打开查看效果，需要注意的是，原插件对浮动元素定位(left)不太准确，已hack代码，包括字体颜色之类的都在插件中写死，可以尝试重新封装该插件，提供渲染参数，或者使用父类的css样式。</p>
+					<p>另外需要注意，该方法不支持响应式，应重新想一个别的办法，类似input[type=money]的方法</p>
+					<p><strong style="color: red;">不支持响应式，不建议使用</strong></p>
+					<div class="row form-group" title="气泡：请输入文本">
+						<label class="form-control-static col-sm-2">
+							<span class="pull-right">文本框</span>
+						</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="请输入文本">
+						</div>
+					</div>
+
+					<div class="row form-group" title="气泡：请输入文本">
+						<label class="form-control-static col-sm-2">
+							<span class="pull-right">多行文本</span>
+						</label>
+						<div class="col-sm-4">
+							<textarea class="form-control" placeholder="请输入文本" rows="3" style="resize: none;"></textarea>
+						</div>
+					</div>
+
+					<pre>&lt;!--[if lt IE 10]&gt;
+    &lt;script type="text/javascript"src="vendor/ie-fix/placeholder.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;![endif]--&gt;</pre>
+				</div>
+				<div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试) <strong style="color: red;">不支持响应式</strong></div>
 			</div>
 
 			<div class="panel panel-primary">
