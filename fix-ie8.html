@@ -215,6 +215,27 @@
 				<div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试) <strong style="color: red;">不支持响应式</strong></div>
 			</div>
 
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						解决ajax跨域报错No transport的错误
+					</h4>
+				</div>
+				<div class="panel-body">
+					<h5><a href="https://www.cnblogs.com/fayin/p/6599104.html">&gt;&gt;&gt;[转]</a>【bug】—— IE8 ajax 报错：no transport</h5>
+					<p>如题，我使用<code>$.ajax()</code>方法请求数据，在现代浏览器中工作正常，但在 IE 8 下，会有报错：no transport</p>
+					<p>从 stackoverflow 中获知，出现这个问题是因为** IE 8 不支持 Cross Origin Resorece Share XHR**请求，所以不能通过原生的 XHR 或者 $.ajax()去跨域请求数据。</p>
+					<p>IE 8 实现了自己的一套方法：XDomainRequest。</p>
+					<p>于是我尝试google——“jquery 兼容 IE 8 XDomainRequest”,找到了一个插件：jquery.xdomainrequest.min.js，点击<a href="/vendor/ie-fix/jquery.xdomainrequest.min.js" download="jquery.xdomainrequest.min.js">下载</a>，直接引用在页面内就解决问题了（只支持IE8、IE9）。</p>
+					<pre>&lt;!--[if lt IE 9]&gt;
+    &lt;script src="vendor/ie-fix/jquery.xdomainrequest.min.js"&gt;&lt;/script&gt;
+&lt;![endif]--&gt;</pre>
+				</div>
+				<div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试)</div>
+			</div>
+
+
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="panel-title">
