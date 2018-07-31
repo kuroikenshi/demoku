@@ -46,4 +46,7 @@ function init_menu() {
 	$target.remove();
 }
 
-init_menu();
+// 页面ready的时候，初始化菜单
+$(function() {
+	init_menu();
+})
