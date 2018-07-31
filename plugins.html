@@ -1,117 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <title>Document</title>
 
-	<link rel="stylesheet" href="vendor/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/common.css">
 
-	<link rel="stylesheet" href="assets/css/common.css">
+    <script src="vendor/jquery-1.12.4/jquery.min.js"></script>
+    <script src="vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script>
+        // 初始化
+        function init() {
+
+        }
+    </script>
 </head>
 <body>
-	<div id="menu"></div>
-	<!-- <div class="navbar navbar-default navbar-static-top" role="navigation">
-		<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="javascript:void(0);">demoku</a>
-		</div>
-		<div>
-			<ul class="nav navbar-nav">
-				<li><a href="javascript:void(0);">插件</a></li>
-				<li><a href="javascript:void(0);">规范</a></li>
-				<li class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-						Java
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0);">jmeter</a></li>
-						<li><a href="javascript:void(0);">EJB</a></li>
-						<li><a href="javascript:void(0);">Jasper Report</a></li>
-						<li class="divider"></li>
-						<li><a href="javascript:void(0);">分离的链接</a></li>
-						<li class="divider"></li>
-						<li><a href="javascript:void(0);">另一个分离的链接</a></li>
-					</ul>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="javascript:void(0);">iOS</a></li>
-				<li><a href="javascript:void(0);">SVN</a></li>
-			</ul>
-		</div>
-		</div>
-	</div> -->
+    <div id="menu"></div>
 
-	<div class="container">
-		<h2>常用插件展示 <small>(展示一些常用插件的用法，效果预览)</small></h2>
+    <div class="container">
+        <h2>常用插件展示 <small>(展示一些常用插件的用法，效果预览)</small></h2>
 
-		<hr>
-		
-		<div class="container-fluid container-fullw">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						基本引用
-					</h4>
-				</div>
-				<div class="panel-body">
-					基本引用的jquery和bootstrap版本
-					div>i-
+        <hr>
+        
+        <div class="container-fluid container-fullw">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        基本引用
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    基本引用的jquery和bootstrap版本
+                    div>i-
 
-					<pre>
+                    <pre>
 &lt;!-- jquery 1.12.4 --&gt;
 &lt;script src="vendor/jquery-1.12.4/jquery.min.js"&gt;&lt;/script&gt;
 
 &lt;!-- bootstrap 3.3.7 --&gt;
 &lt;link rel="stylesheet" href="vendor/bootstrap-3.3.7/css/bootstrap.min.css"&gt;
 &lt;script src="vendor/bootstrap-3.3.7/js/bootstrap.min.js"&gt;&lt;/script&gt;</pre>
-				</div>
-				<div class="panel-footer">兼容性：</div>
-				<div class="panel-footer"></div>
-			</div>
-		</div>
+                </div>
+                <div class="panel-footer">兼容性：</div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
 
-		<div class="container-fluid container-fullw">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						示例标题
-					</h4>
-				</div>
-				<div class="panel-body">
-					示例内容
-					<pre>console.log('示例代码');</pre>
-				</div>
-			</div>
-		</div>
+        <div class="container-fluid container-fullw">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        数字滚动插件
+                    </h4>
+                </div>
+                <div class="panel-body">
+                        <span class="absolute-counter">4812</span>
+                        <span style="display: inline-block; line-height: 60px; height: 60px; vertical-align: top; margin-left: 20px;">
+                            <button class="btn btn-success" id="abcBtn">重绘</button>
+                        </span>
+                    <!-- 数字滚动插件 -->
+                    <style>
+                        span.absolute-counter {
+                            font-size: 60px;
+                            line-height: 1em;
+                            font-weight: 300;
+                            display: inline-block!important;
+                            height: 1em;
+                            color: #303030;
+                        }
+                    </style>
+                    <script src="vendor/jquery.absoluteCounter/jquery.absoluteCounter.min.js"></script>
+                    <script>
+                        $(function() {
+                            // 数字滚动效果
+                            $('.absolute-counter').absoluteCounter();    // 使用默认参数
 
-		<!-- <div class="container-fluid container-fullw">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						示例标题
-					</h4>
-				</div>
-				<div class="panel-body">
-					示例内容
-					<pre>console.log('示例代码');</pre>
-				</div>
-			</div>
-		</div> -->
+                            // 重绘
+                            $('#abcBtn').on('click', function() {
+                                $('.absolute-counter')[0].outerHTML = '<span class="absolute-counter">4821</span>';
+                                $('.absolute-counter').absoluteCounter({
+                                    speed: 2000,                    // 整个动画过程时间(毫秒)
+                                    setStyles: true,                // 使用js中的css样式，设置为false需要自己预先定义(不推荐)
+                                    onComplete: function() {
+                                        console.log('完毕回调');    // 有几位数运行几次
+                                    },
+                                    delayedStart: 0,                // 延迟开始的时间(毫秒)
+                                    fadeInDelay: 0                  // 淡入的持续时间(毫秒)
+                                });
+                            });
+                        });
+                    </script>
 
-	</div>
+                    <h5>基本使用方法</h5>
+                    <p>引入js</p>
+                    <pre>&lt;script src="vendor/jquery.absoluteCounter/jquery.absoluteCounter.min.js">&lt;/script></pre>
+					<p>定义样式</p>
+                    <pre>&lt;style>
+    span.absolute-counter {
+        font-size: 60px;
+        line-height: 1em;
+        font-weight: 300;
+        display: inline-block!important;
+        height: 1em;
+        color: #303030;
+    }
+&lt;/style></pre>
+                    <p>html代码</p>
+                    <pre>&lt;span class="absolute-counter">482&lt;/span></pre>
+                    <p>初始化代码，可以配置参数(下述为默认参数)</p>
+                    <pre>&lt;script>
+    $('.absolute-counter').absoluteCounter({
+        speed: 2000,                                   // 整个动画过程时间(毫秒)
+        setStyles: true,                               // 使用js中的css样式，设置为false需要自己预先定义(不推荐)
+        onComplete: function() {
+            console.log('abc completed callback');     // 有几位数运行几次
+        },
+        delayedStart: 0,                               // 延迟开始的时间(毫秒)
+        fadeInDelay: 0                                 // 淡入的持续时间(毫秒)
+    });
+&lt;/script></pre>
+					<p>或使用默认配置</p>
+                    <pre>&lt;script>
+    $('.absolute-counter').absoluteCounter();
+&lt;/script></pre>
 
-	<script src="vendor/jquery-1.12.4/jquery.min.js"></script>
-	<script src="vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+                    <h5>通常在页面中使用方法</h5>
+                    <p>通常需要判断当对象可见以后再开始初始化，可以查看<code>isVisible</code>方法(TODO)</p>
+                </div>
+                <div class="panel-footer">兼容性：<strong>IE8</strong> (其他未测试)</div>
+            </div>
+        </div>
 
-	<script src="assets/js/common.js"></script>
+        <div class="container-fluid container-fullw">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        示例标题
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    示例内容
+                    <pre>console.log('示例代码');</pre>
+                </div>
+            </div>
+        </div>
 
-	<script>
-		// 初始化
-		function init() {
+        <!-- <div class="container-fluid container-fullw">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        示例标题
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    示例内容
+                    <pre>console.log('示例代码');</pre>
+                </div>
+            </div>
+        </div> -->
 
-		}
-	</script>
+    </div>
 </body>
 </html>
