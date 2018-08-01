@@ -57,10 +57,13 @@
                     </h4>
                 </div>
                 <div class="panel-body">
-                        <span class="absolute-counter">4812</span>
-                        <span style="display: inline-block; line-height: 60px; height: 60px; vertical-align: top; margin-left: 20px;">
-                            <button class="btn btn-success" id="abcBtn">重绘</button>
-                        </span>
+                    <span id="abc-container">
+                        <span class="absolute-counter" id="abc1">4812</span>
+                        <span class="absolute-counter" id="abc2">9876</span>
+                    </span>
+                    <span style="display: inline-block; line-height: 60px; height: 60px; vertical-align: top; margin-left: 20px;">
+                        <button class="btn btn-success" id="abcBtn">重绘</button>
+                    </span>
                     <!-- 数字滚动插件 -->
                     <style>
                         span.absolute-counter {
@@ -75,21 +78,28 @@
                     <script src="vendor/jquery.absoluteCounter/jquery.absoluteCounter.min.js"></script>
                     <script>
                         $(function() {
-                            // 数字滚动效果
-                            $('.absolute-counter').absoluteCounter();    // 使用默认参数
+                            function drawCounter() {
+                                // 数字滚动效果
+                                $('#abc1').absoluteCounter();       // 使用默认参数
 
-                            // 重绘
-                            $('#abcBtn').on('click', function() {
-                                $('.absolute-counter')[0].outerHTML = '<span class="absolute-counter">4821</span>';
-                                $('.absolute-counter').absoluteCounter({
+                                $('#abc2').absoluteCounter({
                                     speed: 2000,                    // 整个动画过程时间(毫秒)
                                     setStyles: true,                // 使用js中的css样式，设置为false需要自己预先定义(不推荐)
                                     onComplete: function() {
                                         console.log('完毕回调');    // 有几位数运行几次
                                     },
                                     delayedStart: 0,                // 延迟开始的时间(毫秒)
-                                    fadeInDelay: 0                  // 淡入的持续时间(毫秒)
+                                    fadeInDelay: 2000               // 淡入的持续时间(毫秒)
                                 });
+                            }
+                            // 首次绘制
+                            drawCounter();
+
+                            // 重绘
+                            $('#abcBtn').on('click', function() {
+                                $('#abc-container').html('<span class="absolute-counter" id="abc1">4812</span>' + 
+                                        '<span class="absolute-counter" id="abc2">9876</span>');
+                                drawCounter();
                             });
                         });
                     </script>
